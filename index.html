@@ -7,15 +7,25 @@
 <style>
 *{box-sizing:border-box}
 body{margin:0;font-family:Arial;background:#080b18;color:white}
-header{padding:25px;text-align:center;background:#111832}
-header h1{color:#8c7bff;font-size:35px}
-.hero{text-align:center;padding:75px 20px}
-.hero h2{font-size:38px}
-.hero p{color:#b8bdd1;font-size:18px}
-button{background:#8068ff;color:white;border:0;padding:15px 30px;border-radius:12px;font-size:17px}
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;padding:25px}
-.card{background:#151d38;padding:30px;border-radius:18px;text-align:center;border:1px solid #303a65}
+header{padding:22px;text-align:center;background:#111832}
+header h1{color:#8c7bff;font-size:32px}
+.hero{text-align:center;padding:55px 20px}
+.hero h2{font-size:30px}
+.hero p{color:#b8bdd1;font-size:17px;line-height:1.8}
+button{background:#8068ff;color:white;border:0;padding:13px 22px;border-radius:12px;font-size:16px;cursor:pointer}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;padding:20px}
+.card{background:#151d38;padding:25px;border-radius:18px;text-align:center;border:1px solid #303a65}
 .card h3{color:#a99aff}
+.card button{margin-top:10px}
+.chat{max-width:700px;margin:25px auto;padding:20px;background:#111832;border:1px solid #303a65;border-radius:18px}
+.chat h2{text-align:center;color:#a99aff}
+#messages{height:280px;overflow-y:auto;background:#080b18;padding:14px;border-radius:12px;margin:15px 0}
+.message{padding:12px;margin:8px 0;border-radius:12px;line-height:1.7;white-space:pre-wrap}
+.user{background:#493b88}
+.bot{background:#1b2948}
+.chat-controls{display:flex;gap:8px}
+.chat input{flex:1;min-width:0;padding:13px;border-radius:10px;border:1px solid #52608c;background:#080b18;color:white;font-size:16px}
+.note{color:#b8bdd1;font-size:13px;line-height:1.7}
 footer{text-align:center;padding:30px;color:#aaa}
 </style>
 </head>
@@ -30,11 +40,43 @@ footer{text-align:center;padding:30px;color:#aaa}
 <button onclick="document.getElementById('tools').scrollIntoView({behavior:'smooth'})">اكتشف الأدوات</button>
 </section>
 <section class="cards" id="tools">
-<div class="card"><h3>✍️ الكتابة الذكية</h3><p>أفكار ومقالات ونصوص إبداعية</p></div>
-<div class="card"><h3>🎨 التصميم</h3><p>أطلق العنان لخيالك وإبداعك</p></div>
-<div class="card"><h3>🤖 مساعد AI</h3><p>مساعدك الذكي للإجابة عن أسئلتك</p></div>
-<div class="card"><h3>💡 أفكار المشاريع</h3><p>اكتشف أفكاراً جديدة لمشاريعك</p></div>
+<div class="card"><h3>✍️ الكتابة الذكية</h3><p>أفكار ومقالات ونصوص إبداعية</p><button onclick="openChat('ساعدني في كتابة مقال')">جرّب الآن</button></div>
+<div class="card"><h3>🎨 التصميم</h3><p>أطلق العنان لخيالك وإبداعك</p><button onclick="openChat('اقترح فكرة تصميم')">جرّب الآن</button></div>
+<div class="card"><h3>🤖 مساعد AI</h3><p>مساعدك الذكي للإجابة عن أسئلتك</p><button onclick="document.getElementById('assistant').scrollIntoView({behavior:'smooth'})">افتح المساعد</button></div>
+<div class="card"><h3>💡 أفكار المشاريع</h3><p>اكتشف أفكاراً جديدة لمشاريعك</p><button onclick="openChat('اقترح أفكار مشاريع')">جرّب الآن</button></div>
+</section>
+<section class="chat" id="assistant">
+<h2>🤖 مساعد عالم AI</h2>
+<p class="note">هذه نسخة تجريبية لواجهة الدردشة. نحتاج ربط خدمة ذكاء اصطناعي حقيقية لتوليد الإجابات.</p>
+<div id="messages"><div class="message bot">مرحباً بك! 👋 أنا مساعد عالم AI. كيف أستطيع مساعدتك؟</div></div>
+<div class="chat-controls">
+<input id="question" type="text" placeholder="اكتب سؤالك هنا..." onkeydown="if(event.key==='Enter')sendMessage()">
+<button onclick="sendMessage()">إرسال</button>
+</div>
 </section>
 <footer>© 2026 عالم AI - جميع الحقوق محفوظة</footer>
+<script>
+function openChat(text){
+document.getElementById('assistant').scrollIntoView({behavior:'smooth'});
+document.getElementById('question').value=text;
+document.getElementById('question').focus();
+}
+function sendMessage(){
+const input=document.getElementById('question');
+const text=input.value.trim();
+if(!text)return;
+const messages=document.getElementById('messages');
+const user=document.createElement('div');
+user.className='message user';
+user.textContent='أنت: '+text;
+messages.appendChild(user);
+const bot=document.createElement('div');
+bot.className='message bot';
+bot.textContent='شكراً لسؤالك! 🌟 واجهة الدردشة تعمل، لكن الإجابات الذكية الحقيقية ستعمل بعد ربط خدمة AI آمنة.';
+messages.appendChild(bot);
+input.value='';
+messages.scrollTop=messages.scrollHeight;
+}
+</script>
 </body>
 </html>
